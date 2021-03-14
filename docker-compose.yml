@@ -1,0 +1,14 @@
+version: '3'
+services:
+  babylonjs-boilerplate-development:
+    build:
+      context: .
+      dockerfile: Dockerfile.Dev
+    ports:
+      - 8080:8080
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - /app/node_modules
+      - .:/app
+    restart: always

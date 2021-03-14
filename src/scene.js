@@ -1,7 +1,7 @@
 import * as BABYLON from 'babylonjs'
 import * as GUI from 'babylonjs-gui'
-import { createSphere, createGround } from './meshCreator'
-import { getNewScene, getNewCamera, getNewLight, createLabel } from './helper'
+import { createSphere, createGround } from './commons/meshCreator'
+import { getNewScene, getNewCamera, getNewLight, createLabel } from './commons/helper'
 
 const canvas = document.getElementById('renderCanvas')
 
@@ -14,14 +14,18 @@ export const Create = (engine, report) => {
   const scene = getNewScene(engine)
   const camera = getNewCamera('mainCamera', scene, canvas, space_size)
   const light = getNewLight('mainLight', scene)
-  const cellIdGUI_AdvancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('ui1', scene)
-  const ground = createGround(scene, space_size, 'ground')
+  const test_AdvancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('ui1', scene)
   const sphere = createSphere(
-    { id: 'test' },
+    { id: 'test-sphere', name: 'sphere - test' },
+    5,
+    12,
     new BABYLON.Color3(Math.random() * 1, Math.random() * 1, Math.random() * 1),
     camera,
     scene
   )
+
+  createGround(scene, space_size, 'ground')
+  createLabel(test_AdvancedTexture, sphere, 'Welcome to BabylonJS Boilerplate from Marco Somma')
 
   scene.registerBeforeRender(function () {
     scene.disablePhysicsEngine()

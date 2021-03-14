@@ -16,7 +16,8 @@ export const getNewCamera = (id, scene, canvas, space_size) => {
   let camera = new BABYLON.ArcRotateCamera(id, 1, 1, space_size * 10, new BABYLON.Vector3.Zero(), scene, true)
   camera.attachControl(canvas, true)
   camera.collisionRadius = new BABYLON.Vector3(1, 1, 1)
-  camera.lowerRadiusLimit = 4
+  camera.lowerRadiusLimit = 10
+  camera.upperRadiusLimit = 100
   camera.wheelPrecision = 1
 
   return camera
@@ -24,9 +25,8 @@ export const getNewCamera = (id, scene, canvas, space_size) => {
 
 export const getNewLight = (id, scene) => {
   var light = new BABYLON.HemisphericLight('hemiLight', new BABYLON.Vector3(-1, 1, 0), scene)
-  light.diffuse = new BABYLON.Color3(255, 0, 255)
-  light.specular = new BABYLON.Color3(255, 0, 255)
-  light.groundColor = new BABYLON.Color3(255, 0, 255)
+  light.diffuse = new BABYLON.Color3.White()
+  light.specular = new BABYLON.Color3.White()
   light.intensity = 1
   return light
 }
@@ -63,27 +63,30 @@ export const getAnimationSphere = () => {
   return scaleAnimation
 }
 
-export const createLabel = (advancedTexture, mesh) => {
+export const createLabel = (advancedTexture, mesh, customText) => {
+  console.log(`${mesh.name.length * 15}px`)
   let label = new GUI.Rectangle('label for ' + mesh.name)
   let text = new GUI.TextBlock()
   let style = advancedTexture.createStyle()
+  let textToDisplay = customText || mesh.name
 
   style.fontSize = 14
   style.fontWeight = 'bold'
-  style.color = '#fff'
   style.fontFamily = 'Roboto'
 
   label.background = 'transparent'
   label.height = '15px'
+
   label.alpha = 1
-  label.width = '30px'
+  label.width = `${textToDisplay.length * 15}px`
   label.cornerRadius = 10
   label.thickness = 0
   advancedTexture.addControl(label)
   label.linkWithMesh(mesh)
 
-  text.text = mesh.name.slice(0, 4)
+  text.text = textToDisplay
   text.alpha = 1
+  text.color = '#00f'
   text.style = style
   label.addControl(text)
 

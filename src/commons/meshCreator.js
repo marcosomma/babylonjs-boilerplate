@@ -58,36 +58,34 @@ export const createGround = (scene, ground_size, name) => {
   }
 }
 
-export const createSphere = (cell, color, camera, scene) => {
-  let sphere = BABYLON.Mesh.CreateSphere(cell.id, 12, 2.5, scene)
+export const createSphere = (args, diameter, segments, color, camera, scene) => {
+  let sphere = BABYLON.Mesh.CreateSphere(args.id, segments, diameter, scene)
   let fresnel_params = getFresnel()
-  sphere.material = new BABYLON.StandardMaterial('myMaterial', scene)
+
+  sphere.name = args.name
+  sphere.material = new BABYLON.StandardMaterial(`shere:${args.id}`, scene)
   sphere.material.color = color
   sphere.material.emissiveFresnelParameters = fresnel_params[0]
   sphere.material.opacityFresnelParameters = fresnel_params[1]
-
   sphere.checkCollisions = true
   sphere.animations.push(getAnimationSphere())
+  sphere.actionManager = new BABYLON.ActionManager(scene)
 
   sphere.physicsImpostor = new BABYLON.PhysicsImpostor(
     sphere,
     BABYLON.PhysicsImpostor.SphereImpostor,
     {
       mass: 1,
-      restitution: -1,
-      friction: -1,
     },
     scene
   )
-
-  sphere.actionManager = new BABYLON.ActionManager(scene)
   sphere.actionManager.registerAction(
     new BABYLON.ExecuteCodeAction(
       BABYLON.ActionManager.OnLeftPickTrigger,
-      ((sphere, cell) => {
+      ((sphere, args) => {
         camera.position = new BABYLON.Vector3(sphere.position.x, sphere.position.y, camera.position.z)
         camera.setTarget(sphere.position)
-      }).bind(this, sphere, cell)
+      }).bind(this, sphere, args)
     )
   )
   return sphere

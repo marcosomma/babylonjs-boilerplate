@@ -54,7 +54,7 @@ export const getNewCamera = (id, scene, canvas, space_size) => {
 }
 
 export const getNewLight = (id, scene) => {
-  var light = new BABYLON.HemisphericLight('hemiLight', new BABYLON.Vector3(-1, 1, 0), scene)
+  var light = new BABYLON.HemisphericLight(id, new BABYLON.Vector3(-1, 1, 0), scene)
   light.diffuse = new BABYLON.Color3.White()
   light.specular = new BABYLON.Color3.White()
   light.intensity = 1
@@ -94,7 +94,6 @@ export const getAnimationSphere = () => {
 }
 
 export const createLabel = (advancedTexture, mesh, customText) => {
-  console.log(`${mesh.name.length * 15}px`)
   let label = new GUI.Rectangle('label for ' + mesh.name)
   let text = new GUI.TextBlock()
   let style = advancedTexture.createStyle()

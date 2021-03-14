@@ -16,23 +16,27 @@ export const registerEventListener = () => {
   console.log('registring events')
 }
 
-export const Create = (engine, report, rootingCallback) => {
-  const space_size = report.size
+export const Create = (engine, rootingCallback) => {
+  const space_size = 200
   const scene = getNewScene(engine)
-  const camera = getNewCamera('mainCamera', scene, canvas, space_size)
-  const light = getNewLight('mainLight', scene)
+  const camera = getNewCamera('mainCamera01', scene, canvas, space_size)
+  const light = getNewLight('mainLight01', scene)
   const test_AdvancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('ui1', scene)
   const sphere = createSphere(
     { id: 'test-sphere', name: 'sphere - test' },
-    5,
     12,
+    6,
     new BABYLON.Color3(Math.random() * 1, Math.random() * 1, Math.random() * 1),
     camera,
     scene
   )
-  createGround(scene, space_size, 'ground')
-  createLabel(test_AdvancedTexture, sphere, 'Scene 01')
 
+  createGround(scene, space_size, 'ground')
+  createLabel(test_AdvancedTexture, sphere, 'Welcome to scene 01')
+  light.diffuse = new BABYLON.Color3.Green()
+  light.specular = new BABYLON.Color3.Green()
+
+  //GUI
   const Panel = createSimplePanel({}, 'red')
   const Btn = createSimpleBtn('scene02', 'Go To Scene02')
 

@@ -1,38 +1,33 @@
 import * as BABYLON from 'babylonjs'
 import { Create as CreateScene01, registerEventListener as registerEventListenerScene01 } from './scenes/scene01'
 import { Create as CreateScene02, registerEventListener as registerEventListenerScene02 } from './scenes/scene02'
+const canvas = document.getElementById('renderCanvas')
+const engine = new BABYLON.Engine(canvas)
+const changeRoot = (newRoot) => (root = newRoot)
+let root = 'scene01'
+let oldRoot = undefined
 
 //Babylonjs requirements
 window.CANNON = require('cannon')
 window['BABYLON'] = BABYLON
 //
 
-const canvas = document.getElementById('renderCanvas')
-const engine = new BABYLON.Engine(canvas)
-const changeRoot = (newRoot) => {
-  console.log('changeRoot to', newRoot)
-  root = newRoot
-}
-let root = ''
-let oldRoot = undefined
-
-const renderScene = (json) => {
-  let scene, registerEventListener
+const renderScene = () => {
+  let scene
   try {
     // Start render loop
     engine.runRenderLoop(() => {
       if (oldRoot !== root) {
         switch (root) {
           case 'scene02':
-            scene = CreateScene02(engine, json, changeRoot)
-            registerEventListener = registerEventListenerScene02
+            scene = CreateScene02(engine, changeRoot)
+            registerEventListenerScene02()
             break
           default:
-            scene = CreateScene01(engine, json, changeRoot)
-            registerEventListener = registerEventListenerScene01
+            scene = CreateScene01(engine, changeRoot)
+            registerEventListenerScene01()
             break
         }
-        registerEventListener()
         oldRoot = root
       }
       scene.render()
@@ -47,4 +42,4 @@ const renderScene = (json) => {
   }
 }
 
-renderScene({ size: 200 })
+renderScene()

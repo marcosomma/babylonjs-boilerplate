@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const { SourceMapDevToolPlugin } = require('webpack')
 const nodeExternals = require('webpack-node-externals')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-console.log(process.env.NODE_ENV)
+
 module.exports = {
   entry: {
     mainDev: __dirname + '/src/index.js',

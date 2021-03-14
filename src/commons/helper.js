@@ -1,6 +1,36 @@
 import * as BABYLON from 'babylonjs'
 import * as GUI from 'babylonjs-gui'
 
+export const TITLE_FONT_SIZE = '32px'
+export const SUB_TITLE_FONT_SIZE = '24px'
+export const HEADER_FONT_SIZE = '16px'
+export const SUB_HEADER_FONT_SIZE = '14px'
+export const FONT_SIZE = '12px'
+export const BOLD_FONT = 500
+export const NORMAL_FONT = 400
+export const THINY_FONT = 100
+
+export const getTextBox = (id, text, color, fontWeight, fontSize, margins, alignment, resize) => {
+  let textBox = new GUI.TextBlock(id)
+  textBox.textWrapping = GUI.TextWrapping.WordWrap
+  textBox.fontFamily = 'Roboto'
+  textBox.fontWeight = fontWeight
+  textBox.fontSize = fontSize
+  textBox.color = color
+  textBox.text = text
+  textBox.lineWidth = fontSize
+  if (resize) textBox.resizeToFit = true
+  if (margins.t) textBox.paddingTop = margins.t
+  if (margins.b) textBox.paddingBottom = margins.b
+  if (margins.r) textBox.paddingRight = margins.r
+  if (margins.l) textBox.paddingLeft = margins.l
+  if (alignment) {
+    textBox.textVerticalAlignment = alignment.v
+    textBox.textHorizontalAlignment = alignment.h
+  }
+  return textBox
+}
+
 export const getNewScene = (engine) => {
   let scene = new BABYLON.Scene(engine)
   scene.clearColor = new BABYLON.Color3(1, 1, 1)
@@ -17,7 +47,7 @@ export const getNewCamera = (id, scene, canvas, space_size) => {
   camera.attachControl(canvas, true)
   camera.collisionRadius = new BABYLON.Vector3(1, 1, 1)
   camera.lowerRadiusLimit = 10
-  camera.upperRadiusLimit = 100
+  camera.upperRadiusLimit = 200
   camera.wheelPrecision = 1
 
   return camera
@@ -91,4 +121,31 @@ export const createLabel = (advancedTexture, mesh, customText) => {
   label.addControl(text)
 
   return label
+}
+
+export const createSimpleBtn = (id, text) => {
+  let SimpleBtn = new GUI.Button.CreateSimpleButton(id, text)
+  SimpleBtn.zIndex = 40
+  SimpleBtn.color = 'black'
+  SimpleBtn.fontFamily = 'Roboto'
+  SimpleBtn.fontWeight = THINY_FONT
+  SimpleBtn.fontSize = SUB_TITLE_FONT_SIZE
+  SimpleBtn.heightInPixels = 60
+  SimpleBtn.thickness = 0
+
+  return SimpleBtn
+}
+
+export const createSimplePanel = (position, bgColor) => {
+  let Panel = new GUI.StackPanel('mainStackPanel')
+  Panel.zIndex = 1000
+  Panel.height = '60px'
+  Panel.width = '200px'
+  Panel.background = bgColor || 'white'
+  Panel.fontFamily = 'Roboto'
+  Panel.horizontalAlignment = position.horizontalAlignment || GUI.Control.HORIZONTAL_ALIGNMENT_LEFT
+  Panel.verticalAlignment = position.verticalAlignment || GUI.Control.VERTICAL_ALIGNMENT_TOP
+  Panel.thickness = 0
+
+  return Panel
 }

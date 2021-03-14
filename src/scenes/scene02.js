@@ -1,7 +1,14 @@
 import * as BABYLON from 'babylonjs'
 import * as GUI from 'babylonjs-gui'
-import { createSphere, createGround } from './commons/meshCreator'
-import { getNewScene, getNewCamera, getNewLight, createLabel } from './commons/helper'
+import { createSphere, createGround } from '../commons/meshCreator'
+import {
+  getNewScene,
+  getNewCamera,
+  getNewLight,
+  createLabel,
+  createSimpleBtn,
+  createSimplePanel,
+} from '../commons/helper'
 
 const canvas = document.getElementById('renderCanvas')
 
@@ -9,7 +16,7 @@ export const registerEventListener = () => {
   console.log('registring events')
 }
 
-export const Create = (engine, report) => {
+export const Create = (engine, report, rootingCallback) => {
   const space_size = report.size
   const scene = getNewScene(engine)
   const camera = getNewCamera('mainCamera', scene, canvas, space_size)
@@ -23,9 +30,18 @@ export const Create = (engine, report) => {
     camera,
     scene
   )
-
   createGround(scene, space_size, 'ground')
-  createLabel(test_AdvancedTexture, sphere, 'Welcome to BabylonJS Boilerplate from Marco Somma')
+  createLabel(test_AdvancedTexture, sphere, 'Scene 02')
+
+  const Panel = createSimplePanel({}, 'green')
+  const Btn = createSimpleBtn('scene01', 'Go To Scene01')
+
+  Panel.addControl(Btn)
+  test_AdvancedTexture.addControl(Panel)
+
+  Btn.onPointerClickObservable.add(() => {
+    rootingCallback('')
+  })
 
   scene.registerBeforeRender(function () {
     scene.disablePhysicsEngine()

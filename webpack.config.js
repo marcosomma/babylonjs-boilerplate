@@ -1,6 +1,6 @@
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var webpack = require('webpack');
-var nodeExternals = require('webpack-node-externals');
+var CopyWebpackPlugin = require('copy-webpack-plugin')
+var webpack = require('webpack')
+var nodeExternals = require('webpack-node-externals')
 
 module.exports = {
   entry: {
@@ -8,49 +8,54 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: __dirname + '/dist'
+    path: __dirname + '/dist',
   },
   performance: {
-    hints: false
+    hints: false,
   },
   plugins: [
-    new CopyWebpackPlugin({patterns:[{
-        from: __dirname + '/src/index.html'
-      },
-      {
-        from: __dirname + '/src/favicon.ico'
-      },
-      {
-        from: __dirname + '/src/assets/fonts/',
-        to: __dirname + '/dist/fonts'
-      },
-      {
-        from: __dirname + '/src/assets/css/',
-        to: __dirname + '/dist/css'
-      }
-    ]}),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: __dirname + '/src/index.html',
+        },
+        {
+          from: __dirname + '/src/favicon.ico',
+        },
+        {
+          from: __dirname + '/src/assets/fonts/',
+          to: __dirname + '/dist/fonts',
+        },
+        {
+          from: __dirname + '/src/assets/css/',
+          to: __dirname + '/dist/css',
+        },
+      ],
+    }),
     new webpack.EnvironmentPlugin({
-      NODE_ENV: process.env.NODE_ENV
-    })
+      NODE_ENV: process.env.NODE_ENV,
+    }),
   ],
   resolve: {
-    extensions: ['.js', '.ttf', '*']
+    extensions: ['.js', '.ttf', '*'],
   },
   devServer: {
     inline: true,
     contentBase: __dirname + '/dist',
-    port: 8080
+    port: 8080,
   },
   module: {
     rules: [
       {
         test: /\.test.js$/,
-        exclude: ["/node_modules/"],
-        use: [{
-          loader: "babel-loader",
-          options: {},
-        }],
+        exclude: ['/node_modules/'],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {},
+          },
+        ],
       },
     ],
-  }
-};
+  },
+}
